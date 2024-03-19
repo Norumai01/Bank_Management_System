@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Bank_Management_System_v2
 {
@@ -14,6 +15,11 @@ namespace Bank_Management_System_v2
         public string name { get; private set; } = string.Empty;
         public string email { get; private set; } = string.Empty;
         public string password { get; private set; } = string.Empty;
+        public int CheckingAccount { get; private set; }
+        public int SavingAccount { get; private set; }
+        public int MoneyMarketAccount { get; private set; }
+        public int CertificateDepositAccount { get; private set; }
+        public int MutualFundAccount { get; private set; }
 
         /*public Bank_Account(int ID, string name, string email, string pass)
         {
@@ -53,7 +59,7 @@ namespace Bank_Management_System_v2
                 Console.WriteLine("Invalid " + setting + ". Please enter a valid " + setting + ".");
                 userInput = Console.ReadLine();
             }
-            // TODO: Add SQL communication to identify valid email.
+            // TODO: Add SQL communication to identify valid email and password.
             return userInput;
         }
 
