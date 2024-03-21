@@ -9,25 +9,18 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Bank_Management_System_v2
 {
-    public class Bank_Account
+    public class BankAccount
     {
-        public int AccountID { get; private set; }
+        public int AccID { get; private set; }
         public string name { get; private set; } = string.Empty;
         public string email { get; private set; } = string.Empty;
         public string password { get; private set; } = string.Empty;
-        public int CheckingAccount { get; private set; }
-        public int SavingAccount { get; private set; }
-        public int MoneyMarketAccount { get; private set; }
-        public int CertificateDepositAccount { get; private set; }
-        public int MutualFundAccount { get; private set; }
+        public int CheckingBal { get; private set; }
+        public int SavingBal { get; private set; }
+        public int MMABal { get; private set; }
+        public int CDsBal { get; private set; }
+        public int MuFundBal { get; private set; }
 
-        /*public Bank_Account(int ID, string name, string email, string pass)
-        {
-            AccountID = ID;
-            this.name = name;
-            this.email = email;
-            this.password = pass;
-        }*/
         public void Deposit(decimal  amount)
         {
 
@@ -40,7 +33,15 @@ namespace Bank_Management_System_v2
         {
 
         }
-        public void LoginInfo() 
+        public void ViewBalance()
+        {
+            // TODO: View current balance for the AccID. 
+        }
+        public void ViewTransactionHistory()
+        {
+            // TODO: View transaction history by matching AccID.
+        }
+        public void LoginInfo(string connectionString) 
         {
             Console.WriteLine("Welcome to Bank!");
             Console.WriteLine("Enter your email.");
@@ -49,6 +50,17 @@ namespace Bank_Management_System_v2
             Console.WriteLine("Enter your password");
             Console.ReadLine();
             password = StringCheck(Console.ReadLine(), "password");
+
+            var databaseHelper = new DatabaseHelper(connectionString);
+            var dataRepository = new DataRepository(databaseHelper);
+
+            // TODO: Match account information through SQL
+        }
+        public void Logout()
+        {
+            // Log out and stop the program.
+            Console.WriteLine("Have a good day!");
+            System.Environment.Exit(0);
         }
         public string StringCheck(string input, string setting) 
         {
@@ -56,29 +68,11 @@ namespace Bank_Management_System_v2
 
             while (string.IsNullOrEmpty(userInput)) 
             {
-                Console.WriteLine("Invalid " + setting + ". Please enter a valid " + setting + ".");
+                Console.WriteLine("Invalid " + setting + ". Please enter a valid " + setting + ".\n");
                 userInput = Console.ReadLine();
             }
-            // TODO: Add SQL communication to identify valid email and password.
             return userInput;
         }
 
     }
-    /*public class CheckingAccount : Bank_Account { }
-    public class SavingAccount : Bank_Account 
-    {
-
-    }
-    public class MoneyMarketAccount : Bank_Account 
-    { 
-    
-    }
-    public class CertOfDeposit : Bank_Account 
-    {
-        
-    }
-    public class MutualFund : Bank_Account
-    {
-
-    }*/
 }
