@@ -16,17 +16,16 @@ namespace Bank_Management_System_v2
         {
             _databaseHelper = databaseHelper;
         }
-
+        
+        // Query script and get data from SQL Database.
         public BankAccount GetData(string Email, string Password)
         {
             using (var connection = _databaseHelper.GetConnection())
             {
                 connection.Open();
-
-                // TODO: Edit condition at WHERE to match email and password.
                 string sql = "SELECT AccID, email, password, name, CheckingBal, SavingBal, MMABal, CDsBal, MuFundBal FROM Bank_System.dbo.BankAccount WHERE email = @Email AND password = @Password";
 
-                return connection.QueryFirstOrDefault<BankAccount>(sql, new { email = Email, password = Password }) ;
+                return connection.QueryFirstOrDefault<BankAccount>(sql, new { email = Email, password = Password });
             }
         }
     }

@@ -23,15 +23,15 @@ namespace Bank_Management_System_v2
 
         public void Deposit(decimal  amount)
         {
-
+            // TODO: Deposit from a specfic account type.
         }
         public void Withdraw(decimal amount)
         {
-
+            // TODO: Withdraw from a specfic account type.
         }
         public void Transfer(decimal amount)
         {
-
+            // TODO: Transfer money between different account types.
         }
         public void ViewBalance()
         {
@@ -45,17 +45,42 @@ namespace Bank_Management_System_v2
         {
             Console.WriteLine("Welcome to Bank!");
             Console.WriteLine("Enter your email.");
-            email = StringCheck(Console.ReadLine(), "email");
+            this.email = StringCheck(Console.ReadLine(), "email");
 
             Console.WriteLine("Enter your password");
             Console.ReadLine();
-            password = StringCheck(Console.ReadLine(), "password");
+            this.password = StringCheck(Console.ReadLine(), "password");
 
-            var databaseHelper = new DatabaseHelper(connectionString);
-            var dataRepository = new DataRepository(databaseHelper);
 
             // TODO: Match account information through SQL
+            RefreshAccInfo(email, password, connectionString);
         }
+        public void RefreshAccInfo(string email, string password, string connectionString)
+        {
+            var databaseHelper = new DatabaseHelper(connectionString);
+            var dataRepository = new DataRepository(databaseHelper);
+            BankAccount account = dataRepository.GetData(email, password); 
+ 
+            if (account != null)
+            {
+                this.AccID = account.AccID;
+                this.name = account.name;
+                this.email = account.email;
+                this.password = account.password;
+                this.CheckingBal = account.CheckingBal;
+                this.SavingBal = account.SavingBal;
+                this.MMABal = account.MMABal;
+                this.CDsBal = account.CDsBal;
+                this.MuFundBal = account.MuFundBal;
+            }
+            else
+            {
+                Console.WriteLine("Account email or password does not exist.");
+                Console.WriteLine("Re-enter your email or password.");
+                //LoginInfo(connectionString);
+            }
+        }
+
         public void Logout()
         {
             // Log out and stop the program.
