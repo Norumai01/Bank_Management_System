@@ -15,27 +15,36 @@ namespace Bank_Management_System_v2
         public string name { get; private set; } = string.Empty;
         public string email { get; private set; } = string.Empty;
         public string password { get; private set; } = string.Empty;
-        public int CheckingBal { get; private set; }
-        public int SavingBal { get; private set; }
-        public int MMABal { get; private set; }
-        public int CDsBal { get; private set; }
-        public int MuFundBal { get; private set; }
+        public decimal CheckingBal { get; private set; }
+        public decimal SavingBal { get; private set; }
+        public decimal MMABal { get; private set; }
+        public decimal CDsBal { get; private set; }
+        public decimal MuFundBal { get; private set; }
 
-        public void Deposit(decimal  amount)
+        public void Deposit()
         {
             // TODO: Deposit from a specfic account type.
+            Console.WriteLine("Testing");
         }
-        public void Withdraw(decimal amount)
+        public void Withdraw()
         {
             // TODO: Withdraw from a specfic account type.
+            Console.WriteLine("Testing");
         }
-        public void Transfer(decimal amount)
+        public void Transfer()
         {
             // TODO: Transfer money between different account types.
+            Console.WriteLine("Testing");
         }
         public void ViewBalance()
         {
             // TODO: View current balance for the AccID. 
+            Console.WriteLine("Checking's Balance: $" + CheckingBal);
+            Console.WriteLine("Saving's Balance: $" + SavingBal);
+            Console.WriteLine("Money Market's Balance: $" + MMABal);
+            Console.WriteLine("Certificate of Deposit's Balance: $" + CDsBal);
+            Console.WriteLine("Mutual Fund's Balance: $" + MuFundBal);
+            Console.WriteLine("");
         }
         public void ViewTransactionHistory()
         {
@@ -43,12 +52,12 @@ namespace Bank_Management_System_v2
         }
         public void LoginInfo(string connectionString) 
         {
+            Console.Clear();
             Console.WriteLine("Welcome to Bank!");
             Console.WriteLine("Enter your email.");
             this.email = StringCheck(Console.ReadLine(), "email");
 
-            Console.WriteLine("Enter your password");
-            Console.ReadLine();
+            Console.WriteLine("\nEnter your password");
             this.password = StringCheck(Console.ReadLine(), "password");
 
 
@@ -77,12 +86,13 @@ namespace Bank_Management_System_v2
             {
                 Console.WriteLine("Account email or password does not exist.");
                 Console.WriteLine("Re-enter your email or password.");
-                //LoginInfo(connectionString);
+                LoginInfo(connectionString);
             }
         }
-
         public void Logout()
         {
+            // TODO: Update the current
+
             // Log out and stop the program.
             Console.WriteLine("Have a good day!");
             System.Environment.Exit(0);
