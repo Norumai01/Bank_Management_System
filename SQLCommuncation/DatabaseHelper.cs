@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bank_Management_System_v2
+namespace Bank_Management_System_v2.SQLCommuncation
 {
     public class DatabaseHelper
     {

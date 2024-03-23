@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace Bank_Management_System_v2
+namespace Bank_Management_System_v2.SQLCommuncation
 {
     public class DataRepository
     {
@@ -16,7 +16,7 @@ namespace Bank_Management_System_v2
         {
             _databaseHelper = databaseHelper;
         }
-        
+
         // Query script and get data from SQL Database.
         public BankAccount GetData(string Email, string Password)
         {
