@@ -44,11 +44,14 @@ class Program
     {
         BankAccount User_Session = new BankAccount();
         string connectionString = "Data Source=DESKTOP-7SAD67L\\SQLEXPRESS;Initial Catalog=Bank_System;Integrated Security=True;Encrypt=False";
-
-        User_Session.LoginInfo(connectionString);
         bool SessonOnOrOff = true;
         string UserStatus = "";
 
+        // Login
+        Console.WriteLine("Welcome to Bank!");
+        User_Session.LoginInfo(connectionString);
+        
+        // Session start
         while (SessonOnOrOff) 
         {
             Console.Clear();
@@ -66,7 +69,6 @@ class Program
             else
             {
                 InterfaceMenu(User_Session, UserStatus);
-                UserStatus = Console.ReadLine().ToLower();
             }
   
         }

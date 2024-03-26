@@ -53,8 +53,7 @@ namespace Bank_Management_System_v2
         }
         public void LoginInfo(string connectionString) 
         {
-            Console.Clear();
-            Console.WriteLine("Welcome to Bank!");
+            //Console.Clear();
             Console.WriteLine("Enter your email.");
             this.email = StringCheck(Console.ReadLine(), "email");
 
@@ -85,8 +84,9 @@ namespace Bank_Management_System_v2
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Account email or password does not exist.");
-                Console.WriteLine("Re-enter your email or password.");
+                Console.WriteLine("Re-enter your email or password.\n");
                 LoginInfo(connectionString);
             }
         }
