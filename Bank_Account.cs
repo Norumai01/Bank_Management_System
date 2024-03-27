@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Bank_Management_System_v2.SQLCommuncation;
+using System.Security.Principal;
 
 namespace Bank_Management_System_v2
 {
@@ -22,15 +23,55 @@ namespace Bank_Management_System_v2
         public decimal CDsBal { get; private set; }
         public decimal MuFundBal { get; private set; }
 
-        public void Deposit()
+        public void Deposit(string account, decimal amount) 
         {
-            // TODO: Deposit from a specfic account type.
-            Console.WriteLine("Testing");
+            // TODO: Deposit to a specfic account type.
+            switch (account)
+            {
+                case "checking":
+                    this.CheckingBal += amount;
+                    break;
+                case "saving":
+                    this.SavingBal += amount;
+                    break;
+                case "money market":
+                    this.MMABal += amount;
+                    break;
+                case "cds":
+                    this.CDsBal += amount;
+                    break;
+                case "mutual fund":
+                    this.MuFundBal += amount;
+                    break;
+                default:
+                    Console.WriteLine("The account input is not recongnized. Please try again.");
+                    break;
+            }
         }
-        public void Withdraw()
+        public void Withdraw(string account, decimal amount)
         {
             // TODO: Withdraw from a specfic account type.
-            Console.WriteLine("Testing");
+            switch (account)
+            {
+                case "checking":
+                    this.CheckingBal -= amount;
+                    break;
+                case "saving":
+                    this.SavingBal -= amount;
+                    break;
+                case "money market":
+                    this.MMABal -= amount;
+                    break;
+                case "cds":
+                    this.CDsBal -= amount;
+                    break;
+                case "mutual fund":
+                    this.MuFundBal -= amount;
+                    break;
+                default:
+                    Console.WriteLine("The account input is not recongnized. Please try again.");
+                    break;
+            }
         }
         public void Transfer()
         {
@@ -97,6 +138,14 @@ namespace Bank_Management_System_v2
             // Log out and stop the program.
             Console.WriteLine("Have a good day!");
             System.Environment.Exit(0);
+        }
+        public decimal AddMoney(decimal account, decimal amount)
+        {
+            return account + amount;
+        }
+        public decimal RemoveMoney(decimal account, decimal amount)
+        {
+            return account - amount;
         }
         public string StringCheck(string input, string setting) 
         {
