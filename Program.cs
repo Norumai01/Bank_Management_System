@@ -32,7 +32,16 @@ class Program
         }
         else if (userInput == "transfer")
         {
-            currentSession.Transfer();
+            Console.WriteLine("Enter how much would you like to transfer?");
+            decimal TransAmount = CheckDecimal(Console.ReadLine(), userInput);
+
+            Console.WriteLine("Please enter which account you would like to transfer from?");
+            string AccountTrans1 = isValidAccount(Console.ReadLine(), userInput);
+
+            Console.WriteLine("Please enter which account you would like to transfer to?");
+            string AccountTrans2 = isValidAccount(Console.ReadLine(), userInput);
+
+            currentSession.Transfer(AccountTrans1, AccountTrans2, TransAmount);
         }
         else if (userInput == "transaction history")
         {
@@ -116,6 +125,6 @@ class Program
             }
   
         }
-        User_Session.Logout();
+        User_Session.Logout(connectionString);
     }
 }
