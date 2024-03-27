@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Bank_Management_System_v2.SQLCommuncation;
+using System.Security.Principal;
 
 namespace Bank_Management_System_v2
 {
@@ -22,24 +23,25 @@ namespace Bank_Management_System_v2
         public decimal CDsBal { get; private set; }
         public decimal MuFundBal { get; private set; }
 
-        public void Deposit()
+        public void Deposit(string account, decimal amount) 
         {
-            // TODO: Deposit from a specfic account type.
-            Console.WriteLine("Testing");
+            // Deposit to a specfic account type.
+            AddMoney(account, amount);
         }
-        public void Withdraw()
+        public void Withdraw(string account, decimal amount)
         {
-            // TODO: Withdraw from a specfic account type.
-            Console.WriteLine("Testing");
+            // Withdraw from a specfic account type.
+            RemoveMoney(account, amount);
         }
-        public void Transfer()
+        public void Transfer(string originAccount, string targetAccount, decimal amount)
         {
             // TODO: Transfer money between different account types.
-            Console.WriteLine("Testing");
+            RemoveMoney(originAccount, amount);
+            AddMoney(targetAccount, amount);
         }
         public void ViewBalance()
         {
-            // TODO: View current balance for the AccID. 
+            // View current balance for the AccID. 
             Console.WriteLine("Checking's Balance: $" + CheckingBal);
             Console.WriteLine("Saving's Balance: $" + SavingBal);
             Console.WriteLine("Money Market's Balance: $" + MMABal);
@@ -53,7 +55,6 @@ namespace Bank_Management_System_v2
         }
         public void LoginInfo(string connectionString) 
         {
-            //Console.Clear();
             Console.WriteLine("Enter your email.");
             this.email = StringCheck(Console.ReadLine(), "email");
 
@@ -61,7 +62,7 @@ namespace Bank_Management_System_v2
             this.password = StringCheck(Console.ReadLine(), "password");
 
 
-            // TODO: Match account information through SQL
+            // Match account information through SQL
             RefreshAccInfo(email, password, connectionString);
         }
         public void RefreshAccInfo(string email, string password, string connectionString)
@@ -70,6 +71,7 @@ namespace Bank_Management_System_v2
             var dataRepository = new DataRepository(databaseHelper);
             BankAccount account = dataRepository.GetData(email, password); 
  
+            // Check if account exists in the SQL database. 
             if (account != null)
             {
                 this.AccID = account.AccID;
@@ -90,18 +92,72 @@ namespace Bank_Management_System_v2
                 LoginInfo(connectionString);
             }
         }
-        public void Logout()
+        public void Logout(string connectionString)
         {
-            // TODO: Update the current
+            // Update the current balance account to SQL.
+            var databaseHelper = new DatabaseHelper(connectionString);
+            var dataRepository = new DataRepository(databaseHelper);
+            dataRepository.UpdateData(AccID, CheckingBal, SavingBal, MMABal, CDsBal, MuFundBal);
 
             // Log out and stop the program.
             Console.WriteLine("Have a good day!");
             System.Environment.Exit(0);
         }
+        public void AddMoney(string account, decimal amount)
+        {
+            // Check which account given by user input for account and add in money to it.
+            switch (account)
+            {
+                case "checking":
+                    this.CheckingBal += amount;
+                    break;
+                case "saving":
+                    this.SavingBal += amount;
+                    break;
+                case "money market":
+                    this.MMABal += amount;
+                    break;
+                case "cds":
+                    this.CDsBal += amount;
+                    break;
+                case "mutual fund":
+                    this.MuFundBal += amount;
+                    break;
+                default:
+                    Console.WriteLine("The account input is not recongnized. Please try again.");
+                    break;
+            }
+        }
+        public void RemoveMoney(string account, decimal amount)
+        {
+            // Check which account given by user input for account and subtract in money to it.
+            switch (account)
+            {
+                case "checking":
+                    this.CheckingBal -= amount;
+                    break;
+                case "saving":
+                    this.SavingBal -= amount;
+                    break;
+                case "money market":
+                    this.MMABal -= amount;
+                    break;
+                case "cds":
+                    this.CDsBal -= amount;
+                    break;
+                case "mutual fund":
+                    this.MuFundBal -= amount;
+                    break;
+                default:
+                    Console.WriteLine("The account input is not recongnized. Please try again.");
+                    break;
+            }
+        }
         public string StringCheck(string input, string setting) 
         {
             string userInput = input;
 
+            // Check if string provided is null or empty, otherwise proceed.
             while (string.IsNullOrEmpty(userInput)) 
             {
                 Console.WriteLine("Invalid " + setting + ". Please enter a valid " + setting + ".\n");

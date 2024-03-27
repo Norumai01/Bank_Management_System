@@ -1,6 +1,7 @@
 ﻿using Bank_Management_System_v2;
 using System;
 using System.Data.SqlClient;
+using System.Security.Cryptography.X509Certificates;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 class Program
@@ -11,15 +12,36 @@ class Program
 
         if (userInput == "deposit")
         {
-            currentSession.Deposit();
+            Console.WriteLine("Enter how much would you like to deposit?");
+            decimal DepoAmount = CheckDecimal(Console.ReadLine(), userInput);
+
+            Console.WriteLine("Please enter which account would you like to deposit to?");
+            string AccountDepo = isValidAccount(Console.ReadLine(), userInput);
+            
+            currentSession.Deposit(AccountDepo, DepoAmount);
         }
         else if (userInput == "withdraw")
         {
-            currentSession.Withdraw();
+            Console.WriteLine("Enter how much would you like to withdraw?");
+            decimal WithAmount = CheckDecimal(Console.ReadLine(), userInput);
+
+            Console.WriteLine("Please enter which account would you like to withdraw from?");
+            string AccountWith = isValidAccount(Console.ReadLine(), userInput);
+
+            currentSession.Withdraw(AccountWith, WithAmount);
         }
         else if (userInput == "transfer")
         {
-            currentSession.Transfer();
+            Console.WriteLine("Enter how much would you like to transfer?");
+            decimal TransAmount = CheckDecimal(Console.ReadLine(), userInput);
+
+            Console.WriteLine("Please enter which account you would like to transfer from?");
+            string AccountTrans1 = isValidAccount(Console.ReadLine(), userInput);
+
+            Console.WriteLine("Please enter which account you would like to transfer to?");
+            string AccountTrans2 = isValidAccount(Console.ReadLine(), userInput);
+
+            currentSession.Transfer(AccountTrans1, AccountTrans2, TransAmount);
         }
         else if (userInput == "transaction history")
         {
@@ -29,6 +51,37 @@ class Program
         {
             Console.WriteLine("Wrong Input. Please type valid input.");
         }
+    }
+    static public decimal CheckDecimal(string input, string setting)
+    {
+        bool isValidInput = false;
+        decimal number = 0;
+
+        while (!isValidInput) 
+        { 
+            if (decimal.TryParse(input, out number))
+            {
+                number = Math.Round(decimal.Parse(input), 2);
+                isValidInput = true;
+            }
+            else
+            {
+                Console.WriteLine("Input is not a valid decimal. Please type the amount you would like to " + setting + ".");
+                input = Console.ReadLine();
+            }
+        }
+        return number;
+    }
+    static public string isValidAccount(string input, string setting)
+    {
+        string userInput = input.ToLower();
+
+        while (string.IsNullOrEmpty(userInput) || (userInput != "checking" && userInput != "saving" && userInput != "money market" && userInput != "cds" && userInput != "mutual fund"))
+        {
+            Console.WriteLine("Invalid account type. Please type a valid account, you like to " + setting + ".");
+            userInput = Console.ReadLine().ToLower();
+        }
+        return userInput;
     }
     static public void ViewMenu()
     {
@@ -72,6 +125,6 @@ class Program
             }
   
         }
-        User_Session.Logout();
+        User_Session.Logout(connectionString);
     }
 }
