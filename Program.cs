@@ -9,6 +9,7 @@ class Program
     static public void InterfaceMenu(BankAccount currentSession, string input)
     {
         string userInput = input.ToLower();
+        string connectionString = "Data Source=DESKTOP-7SAD67L\\SQLEXPRESS;Initial Catalog=Bank_System;Integrated Security=True;Encrypt=False";
 
         if (userInput == "deposit")
         {
@@ -19,6 +20,7 @@ class Program
             string AccountDepo = isValidAccount(Console.ReadLine(), userInput);
             
             currentSession.Deposit(AccountDepo, DepoAmount);
+            Console.Clear();
         }
         else if (userInput == "withdraw")
         {
@@ -29,6 +31,7 @@ class Program
             string AccountWith = isValidAccount(Console.ReadLine(), userInput);
 
             currentSession.Withdraw(AccountWith, WithAmount);
+            Console.Clear();
         }
         else if (userInput == "transfer")
         {
@@ -42,14 +45,17 @@ class Program
             string AccountTrans2 = isValidAccount(Console.ReadLine(), userInput);
 
             currentSession.Transfer(AccountTrans1, AccountTrans2, TransAmount);
+            Console.Clear();
         }
         else if (userInput == "transaction history")
         {
-            currentSession.ViewTransactionHistory();
+            Console.Clear();
+            currentSession.ViewTransactionHistory(connectionString);
         }
         else
         {
-            Console.WriteLine("Wrong Input. Please type valid input.");
+            Console.Clear();
+            Console.WriteLine("Wrong Input. Please type valid input.\n");
         }
     }
     static public decimal CheckDecimal(string input, string setting)
@@ -107,7 +113,6 @@ class Program
         // Session start
         while (SessonOnOrOff) 
         {
-            Console.Clear();
             User_Session.ViewBalance();
             Console.WriteLine($"Welcome, {User_Session.name}!");
             Console.WriteLine("What would you like to do today?");
