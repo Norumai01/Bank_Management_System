@@ -42,5 +42,17 @@ namespace Bank_Management_System_v2.SQLCommuncation
                 connection.Execute(sql, new { NewCheckBal =  newCheckBal, NewSavingBal = newSaveBal, NewMMABal = newMMABal, NewCDsBal = newCDsBal, NewMuFundBal = newMuFundBal, AccountID = accountID});
             }
         } 
+
+        public List<TransactionHistory> GetTransactions(int accountID) 
+        {
+            using (var connection = _databaseHelper.GetConnection())
+            {
+                connection.Open();
+
+                string sql = "SELECT AccID, TransID, TransMemo, Balance FROM Bank_System.dbo.TransactionHistory WHERE AccID = @AccountID";
+                
+                return connection.Query<TransactionHistory>(sql, new { AccountID = accountID }).ToList();
+            }
+        }
     }
 }

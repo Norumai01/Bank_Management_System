@@ -49,9 +49,18 @@ namespace Bank_Management_System_v2
             Console.WriteLine("Mutual Fund's Balance: $" + MuFundBal);
             Console.WriteLine("");
         }
-        public void ViewTransactionHistory()
+        public void ViewTransactionHistory(string connectionString)
         {
             // TODO: View transaction history by matching AccID.
+            var databaseHelper = new DatabaseHelper(connectionString);
+            var dataRepository = new DataRepository(databaseHelper);
+            List<TransactionHistory> transactions = dataRepository.GetTransactions(AccID);
+
+            foreach (TransactionHistory transaction in transactions) 
+            {
+                Console.WriteLine($"Transaction ID: {transaction.TransID}" + "    " + $"Transaction Memo: {transaction.TransMemo}" + "    " + $"Transaction's Balance: {transaction.Balance}");
+            }
+            Console.WriteLine("");
         }
         public void LoginInfo(string connectionString) 
         {
@@ -64,6 +73,7 @@ namespace Bank_Management_System_v2
 
             // Match account information through SQL
             RefreshAccInfo(email, password, connectionString);
+            Console.Clear();
         }
         public void RefreshAccInfo(string email, string password, string connectionString)
         {
