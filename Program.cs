@@ -9,7 +9,7 @@ class Program
     static public void InterfaceMenu(BankAccount currentSession, string input)
     {
         string userInput = input.ToLower();
-        string connectionString = "Data Source=DESKTOP-7SAD67L\\SQLEXPRESS;Initial Catalog=Bank_System;Integrated Security=True;Encrypt=False";
+        string connectionString = ""; // Insert SQL Key here.
 
         if (userInput == "deposit")
         {
@@ -102,7 +102,7 @@ class Program
     static public void Main()
     {
         BankAccount User_Session = new BankAccount();
-        string connectionString = "Data Source=DESKTOP-7SAD67L\\SQLEXPRESS;Initial Catalog=Bank_System;Integrated Security=True;Encrypt=False";
+        string connectionString = ""; // Insert SQL Key here.
         bool SessonOnOrOff = true;
         string UserStatus = "";
 
